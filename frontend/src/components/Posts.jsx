@@ -8,7 +8,7 @@ const Posts = () => {
   
   return (
     <div className="">
-      <OnlineUsers/>
+      <OnlineUsers className="hidden md:block"/>
       {posts.length > 0 ? (
         posts.map((post) => <Post key={post._id} post={post} />)
       ) : (

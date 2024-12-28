@@ -1,9 +1,11 @@
 import React from 'react';
 import Posts from './Posts';
+import OnlineUser from './OnlineUsers';
 
 const Feed = () => {
   return (
-    <div className="flex-1 my-2 flex flex-col items-center pl-[20%]">
+    <div className="">
+      <OnlineUser className="md:hidden"/>
       <Posts />
     </div>
   );

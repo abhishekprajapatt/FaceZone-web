@@ -107,11 +107,11 @@ const Post = ({ post }) => {
         }
     }
     return (
-        <div className='my-8 w-full max-w-xl mx-auto'>
+        <div className='md:my-8 w-full md:max-w-xl max-w-md px-2 md:mx-auto my-20'>
             <div className='flex items-center justify-between'>
                 <div className='flex items-center gap-2'>
                     <Avatar>
-                        <AvatarImage src={post.author?.profilePicture} alt="post_image" />
+                        <AvatarImage src={post.author?.profilePicture} alt="post_image" className="" />
                         <AvatarFallback>CN</AvatarFallback>
                     </Avatar>
                     <div className='flex items-center gap-3'>
