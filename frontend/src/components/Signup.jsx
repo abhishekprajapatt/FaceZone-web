@@ -76,7 +76,7 @@ const Signup = () => {
             name="username"
             value={input.username}
             onChange={changeEventHandler}
-            className="focus-visible:ring-transparent my-2"
+            className="my-2"
           />
         </div>
         <div>
@@ -86,7 +86,7 @@ const Signup = () => {
             name="email"
             value={input.email}
             onChange={changeEventHandler}
-            className="focus-visible:ring-transparent my-2"
+            className="my-2"
           />
         </div>
         <div>
@@ -96,7 +96,7 @@ const Signup = () => {
             name="password"
             value={input.password}
             onChange={changeEventHandler}
-            className="focus-visible:ring-transparent my-2"
+            className="my-2"
           />
         </div>
         {loading ? (
