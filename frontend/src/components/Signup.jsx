@@ -26,7 +26,7 @@ const Signup = () => {
     try {
       setLoading(true);
       const res = await axios.post(
-        'http://localhost:8000/api/v1/user/register',
+        `${import.meta.env.VITE_BACKEND_URL}/api/v1/user/register`,
         input,
         {
           headers: {
@@ -64,7 +64,7 @@ const Signup = () => {
         className="shadow-lg flex flex-col gap-5 p-8"
       >
         <div className="my-4">
-          <h1 className="text-center font-bold text-xl">LOGO</h1>
+        <h1 className="text-center font-bold font-serif text-xl">FaceZone</h1>
           <p className="text-sm text-center">
             Signup to see photos & videos from your friends
           </p>

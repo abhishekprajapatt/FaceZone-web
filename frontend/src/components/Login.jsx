@@ -27,7 +27,7 @@ const Login = () => {
     try {
       setLoading(true);
       const res = await axios.post(
-        'http://localhost:8000/api/v1/user/login',
+        `${import.meta.env.VITE_BACKEND_URL}/api/v1/user/login`,
         input,
         {
           headers: {
@@ -65,7 +65,7 @@ const Login = () => {
         className="shadow-lg flex flex-col gap-5 p-8"
       >
         <div className="my-4">
-          <h1 className="text-center font-bold text-xl">FaceZone</h1>
+          <h1 className="text-center font-bold font-serif text-xl">FaceZone</h1>
           <p className="text-sm text-center">
             Login to see photos & videos from your friends
           </p>

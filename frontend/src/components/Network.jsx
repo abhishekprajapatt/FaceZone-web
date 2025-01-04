@@ -27,7 +27,7 @@ const Network = () => {
                         <span className='text-gray-600 text-sm flex'><AtSign size={15} className="mt-1" />{user?.username || 'username'}</span>
                         </div>
                     </div>
-                    <span className='text-[#3BADF8] text-xs font-bold cursor-pointer hover:text-[#3495d6]'>Follow</span>
+                    {/* <span className='text-[#3BADF8] text-xs font-bold cursor-pointer hover:text-[#3495d6]'>Follow</span> */}
                 </div>
                 )
             })

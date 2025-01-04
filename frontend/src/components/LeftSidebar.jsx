@@ -1,5 +1,6 @@
 import {
     Drama,
+  Frown,
   Heart,
   Home,
   LogOut,
@@ -32,7 +33,7 @@ const LeftSidebar = () => {
   const logoutHandler = async () => {
     try {
       const res = await axios.get(
-        'https://socialmedia-bk8h.onrender.com/api/v1/user/logout',
+        `${import.meta.env.VITE_BACKEND_URL}/api/v1/user/logout`,
         { withCredentials: true }
       );
       if (res.data.success) {
@@ -160,13 +161,13 @@ export default LeftSidebar;
 
 const MobileLeftSidebar = ({user, sidebarHandler, likeNotification, setOpen, open}) => {
     const sidebarItems = [
-        { icon: <Home size={32} />, text: 'Home' },
-        { icon: <PlusSquare size={32} />, text: 'Create' },
-        { icon: <Drama size={32} />, text: 'network' },
-        { icon: <LogOut size={32} />, text: 'Logout' },
+        { icon: <Home size={28} />, text: 'Home' },
+        { icon: <PlusSquare size={28} />, text: 'Create' },
+        { icon: <Drama size={28} />, text: 'network' },
+        { icon: <Frown size={28} />, text: 'Logout' },
         {
             icon: (
-                <Avatar className="w-10 h-10">
+                <Avatar className="w-8 h-8">
               <AvatarImage src={user?.profilePicture} alt="@shadcn" />
               <AvatarFallback>CN</AvatarFallback>
             </Avatar>
@@ -177,9 +178,9 @@ const MobileLeftSidebar = ({user, sidebarHandler, likeNotification, setOpen, ope
         // { icon: <MessageCircle />, text: 'Messages' },
       ];
   return (
-    <div className="sm:hidden ">
+    <div className="sm:hidden">
       <div className="flex">
-        <div className='grid grid-cols-5 px-4 py-2 fixed bottom-0 gap-6 border-b border-gray-300 w-full h-[6%] bg-white'>
+        <div className='grid grid-cols-5 shadow-lg shadow-gray-800 px-4 fixed bottom-0 gap-6 border-b border-gray-300 w-full h-[8%] bg-white'>
           {sidebarItems.map((item, index) => {
             return (
               <div

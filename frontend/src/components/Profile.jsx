@@ -26,10 +26,10 @@ const Profile = () => {
 
   return (
     <div className='flex max-w-5xl justify-center mx-auto pl-10'>
-      <div className='flex flex-col gap-20 p-8'>
-        <div className='grid grid-cols-2'>
-          <section className='flex items-center justify-center'>
-            <Avatar className='h-32 w-32'>
+      <div className='flex flex-col gap-12 sm:gap-20 py-8 px-4'>
+        <div className='grid grid-cols-2 ml-[-3rem] sm:ml-auto'>
+          <section className='flex items-center justify-center mt-[-4rem] sm:mt-auto '>
+            <Avatar className='w-24 h-24 sm:h-32 sm:w-32'>
               <AvatarImage src={userProfile?.profilePicture || "https://th.bing.com/th/id/OIP.YxvEw4Wl6-91Y0v8ntxuMwHaEK?rs=1&pid=ImgDetMain"} alt="profilephoto" />
               <AvatarFallback>CN</AvatarFallback>
             </Avatar>
@@ -37,13 +37,43 @@ const Profile = () => {
           <section>
             <div className='flex flex-col gap-5'>
               <div className='flex items-center gap-2'>
-                <span className="font-serif">{userProfile?.username}</span>
-                {
+                <span className="font-serif fixed left-8">{userProfile?.username}</span>
+                <div className="hidden sm:block">
+                  {
+                    isLoggedInUserProfile ? (
+                      <>
+                        <Link to="/account/edit"><Button variant='secondary' className='hover:bg-gray-200 h-8'>Edit profile</Button></Link>
+                        <Button variant='secondary' className='hover:bg-gray-200 h-8'>View archive</Button>
+                        <Button variant='secondary' className='hover:bg-gray-200 h-8'>Ad tools</Button>
+                      </>
+                    ) : (
+                      isFollowing ? (
+                        <>
+                          <Button variant='secondary' className='h-8'>Unfollow</Button>
+                          <Button variant='secondary' className='h-8'>Message</Button>
+                        </>
+                      ) : (
+                        <Button className='bg-[#0095F6] hover:bg-[#3192d2] h-8'>Follow</Button>
+                      )
+                    )
+                  }
+                </div>
+              </div>
+              <div className='flex items-center gap-4 ml-[-1.5rem] sm:ml-auto'>
+                <p><span className='font-semibold'>{userProfile?.posts?.length} </span>posts</p>
+                <p><span className='font-semibold'>{userProfile?.followers?.length} </span>followers</p>
+                <p><span className='font-semibold'>{userProfile?.following?.length} </span>following</p>
+              </div>
+              <div className='flex flex-col gap-1'>
+                <Badge className='w-fit' variant='secondary'><AtSign /> <span className='pl-1'>{userProfile?.username}</span> </Badge>
+                <span className='font-semibold w-1/2'>{userProfile?.bio || 'Add Bio...'}</span>
+              </div>
+              <div className="sm:hidden flex items-center gap-2 ml-[-2rem]">
+              {
                   isLoggedInUserProfile ? (
                     <>
-                      <Link to="/account/edit"><Button variant='secondary' className='hover:bg-gray-200 h-8'>Edit profile</Button></Link>
-                      <Button variant='secondary' className='hover:bg-gray-200 h-8'>View archive</Button>
-                      <Button variant='secondary' className='hover:bg-gray-200 h-8'>Ad tools</Button>
+                      <Link to="/account/edit"><Button variant='secondary' className='hover:bg-gray-200 h-8 text-xs'>Edit profile</Button></Link>
+                      <Button variant='secondary' className='hover:bg-gray-200 h-8 text-xs'>View archive</Button>
                     </>
                   ) : (
                     isFollowing ? (
@@ -56,18 +86,6 @@ const Profile = () => {
                     )
                   )
                 }
-              </div>
-              <div className='flex items-center gap-4'>
-                <p><span className='font-semibold'>{userProfile?.posts?.length} </span>posts</p>
-                <p><span className='font-semibold'>{userProfile?.followers?.length} </span>followers</p>
-                <p><span className='font-semibold'>{userProfile?.following?.length} </span>following</p>
-              </div>
-              <div className='flex flex-col gap-1'>
-                <Badge className='w-fit' variant='secondary'><AtSign /> <span className='pl-1'>{userProfile?.username}</span> </Badge>
-                <span className='font-semibold w-1/2'>{userProfile?.bio || 'bio here...'}</span>
-                <span>😊 Always Happy</span>
-                <span>😉 Be Positive like Protons</span>
-                <span>🤗 Keep moving forward like a river</span>
               </div>
             </div>
           </section>

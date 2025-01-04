@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 import OnlineUsers from './OnlineUsers';
 
 const Posts = () => {
-  const posts = useSelector((state) => state.post?.posts || []); // Safely access posts
+  const posts = useSelector((state) => state.post?.posts || []); 
   
   return (
     <div className="">
@@ -12,7 +12,7 @@ const Posts = () => {
       {posts.length > 0 ? (
         posts.map((post) => <Post key={post._id} post={post} />)
       ) : (
-        <p>No posts available.</p> // Fallback message when there are no posts
+        <p>No posts available.</p> 
       )}
     </div>
   );
