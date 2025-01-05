@@ -46,7 +46,7 @@ const CreatePost = ({ open, setOpen }) => {
         }
       );
       if (res.data.success) {
-        dispatch(setPosts([res.data.post, ...posts])); 
+        dispatch(setPosts([res.data.post, ...posts]));
         toast.success(res.data.message);
         setOpen(false);
       }

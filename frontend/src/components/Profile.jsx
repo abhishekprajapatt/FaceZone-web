@@ -37,7 +37,7 @@ const Profile = () => {
           <section>
             <div className='flex flex-col gap-5'>
               <div className='flex items-center gap-2'>
-                <span className="font-serif fixed left-8">{userProfile?.username}</span>
+                <span className="md:hidden font-serif fixed left-8">{userProfile?.username}</span>
                 <div className="hidden sm:block">
                   {
                     isLoggedInUserProfile ? (
