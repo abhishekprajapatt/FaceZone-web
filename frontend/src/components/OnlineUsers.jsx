@@ -105,13 +105,13 @@ const OnlineUser = () => {
         <CarouselNext />
       </Carousel>
       <div className="md:hidden fixed grid grid-cols-2 ">
-        <div className="grid grid-cols-2 shadow-sm shadow-gray-50 gap-[3rem] fixed top-0 left-0 px-2 bg-white py-2">
+        <div className="grid grid-cols-2 shadow-sm shadow-gray-50 gap-[3rem] fixed top-0 left-0 px-2 bg-white py-2 w-full">
           <h1 className="flex gap-2 font-extrabold text-2xl">
             <Link to="/" className="font-extrabold font-serif text-2xl my-2">
               FaceZone
             </Link>
           </h1>
-          <div className="mx-2 my-2 fixed top-2 right-0">
+          <div className="mx-2 my-2 fixed top-2 right-1">
             <div className="grid grid-cols-2 gap-2">
               {topItems.map((item, index) => {
                 return (

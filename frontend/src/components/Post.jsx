@@ -124,9 +124,9 @@ const Post = ({ post }) => {
     }
   };
   return (
-    <div className="md:my-8 w-full md:max-w-xl max-w-md px-2 md:mx-auto my-20">
+    <div className="md:my-8 w-full md:max-w-xl max-w-md md:mx-auto my-20">
       <div className="flex items-center justify-between">
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 px-2 md:px-0">
           <Avatar>
             <AvatarImage
               src={post.author?.profilePicture}
@@ -177,7 +177,7 @@ const Post = ({ post }) => {
         alt="post_img"
       />
 
-      <div className="flex items-center justify-between my-2">
+      <div className="flex items-center justify-between my-2 px-2 md:px-0">
         <div className="flex items-center gap-3">
           {liked ? (
             <FaHeart
@@ -207,8 +207,8 @@ const Post = ({ post }) => {
           className="cursor-pointer hover:text-gray-600"
         />
       </div>
-      <span className="font-medium block mb-2">{postLike} likes</span>
-      <p>
+      <span className="font-medium block mb-2 px-2 md:px-0">{postLike} likes</span>
+      <p className='px-2 md:px-0'>
         <span className="font-medium mr-2">{post.author?.username}</span>
         {post.caption}
       </p>
@@ -224,7 +224,7 @@ const Post = ({ post }) => {
         </span>
       )}
       <CommentDialog open={open} setOpen={setOpen} />
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between px-2 md:px-0" >
         <input
           type="text"
           placeholder="Add a comment..."

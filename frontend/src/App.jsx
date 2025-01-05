@@ -15,6 +15,7 @@ import { setLikeNotification } from './redux/rtnSlice';
 import ProtectedRoutes from './components/ProtectedRoutes';
 import SuggestedUsers from './components/SuggestedUsers';
 import Network from './components/Network';
+import CreatePost from './components/CreatePost';
 
 const browserRouter = createBrowserRouter([
   {
@@ -93,7 +94,7 @@ function App() {
 
   useEffect(() => {
     if (user) {
-      const socketio = io('http://localhost:8000', {
+      const socketio = io(`${import.meta.env.VITE_BACKEND_URL}`, {
         query: {
           userId: user?._id,
         },
