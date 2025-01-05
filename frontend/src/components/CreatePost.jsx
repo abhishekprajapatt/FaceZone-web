@@ -76,7 +76,7 @@ const CreatePost = ({ open, setOpen }) => {
               <div className='w-full h-64 flex items-center justify-center'>
                 <img src={imagePreview} alt="preview_img" className='object-cover h-full w-full rounded-md' />
               </div>
-              <Textarea value={caption} onChange={(e) => setCaption(e.target.value)} className="focus-visible:ring-transparent border-none" placeholder="Write a caption..." />
+              <Textarea value={caption} onChange={(e) => setCaption(e.target.value)} className="focus-visible:ring-transparent border-none text-white" placeholder="Write a caption..." />
             </>
             )
           }
