@@ -144,7 +144,7 @@ const Post = ({ post }) => {
         </div>
         <Dialog>
           <DialogTrigger asChild>
-            <MoreHorizontal className="cursor-pointer mr-2" />
+            <MoreHorizontal className="cursor-pointer px-2" />
           </DialogTrigger>
           <DialogContent className="flex flex-col items-center text-sm text-center">
             {post?.author?._id !== user?._id && (
@@ -163,7 +163,7 @@ const Post = ({ post }) => {
               <Button
                 onClick={deletePostHandler}
                 variant="ghost"
-                className="cursor-pointer w-fit"
+                className="cursor-pointer w-fit text-blue-600"
               >
                 Delete
               </Button>
