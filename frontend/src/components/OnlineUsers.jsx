@@ -20,7 +20,7 @@ const OnlineUser = () => {
   const { suggestedUsers, selectedUser } = useSelector((store) => store.auth);
   const { onlineUsers } = useSelector((store) => store.chat);
   const dispatch = useDispatch();
-  useEffect(() => {
+  useEffect(() => { 
     return () => {
       dispatch(setSelectedUser(null));
     };
