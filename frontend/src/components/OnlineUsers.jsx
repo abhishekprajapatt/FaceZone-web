@@ -8,6 +8,7 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from '@/components/ui/carousel';
+import { Popover, PopoverContent, PopoverTrigger } from './ui/popover';
 import { useDispatch, useSelector } from 'react-redux';
 import { setSelectedUser } from '@/redux/authSlice';
 import { useEffect } from 'react';
