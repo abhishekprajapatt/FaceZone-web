@@ -52,6 +52,8 @@ const LeftSidebar = () => {
       logoutHandler();
     } else if (textType === 'Create') {
       setOpen(true);
+    } else if (textType === 'CreatePost') {
+      navigate("/createpost")
     } else if (textType === 'Profile') {
       navigate(`/profile/${user?._id}`);
     } else if (textType === 'Home') {
@@ -66,7 +68,7 @@ const LeftSidebar = () => {
     { icon: <Home />, text: 'Home' },
     { icon: <MessageCircle />, text: 'Messages' },
     { icon: <Heart />, text: 'Notifications' },
-    { icon: <PlusSquare />, text: 'Create' },
+    { icon: <PlusSquare className='hidden md:block' />, text: 'Create' },
     {
       icon: (
         <Avatar className="w-6 h-6">
@@ -78,6 +80,7 @@ const LeftSidebar = () => {
     },
     { icon: <LogOut />, text: 'Logout' },
   ];
+
   return (
     <div>
       <div className="hidden sm:block fixed top-0 z-10 left-0 px-4 border-r border-gray-300 w-[16%] h-screen">
@@ -172,7 +175,7 @@ const MobileLeftSidebar = ({
 }) => {
   const sidebarItems = [
     { icon: <Home size={28} />, text: 'Home' },
-    { icon: <PlusSquare size={28} />, text: 'Create' },
+    { icon: <PlusSquare size={28} className='md:hidden' />, text: 'CreatePost' },
     { icon: <Drama size={28} />, text: 'network' },
     { icon: <Frown size={28} />, text: 'Logout' },
     {

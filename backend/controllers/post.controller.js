@@ -265,7 +265,7 @@ export const bookmarkPost = async (req, res) => {
 
     const user = await User.findById(authorId);
     if (user.bookmarks.includes(post._id)) {
-      // already bookmarked -> remove from the bookmark
+      
       await user.updateOne({ $pull: { bookmarks: post._id } });
       await user.save();
       return res
@@ -276,7 +276,7 @@ export const bookmarkPost = async (req, res) => {
           success: true,
         });
     } else {
-      // bookmark krna pdega
+      
       await user.updateOne({ $addToSet: { bookmarks: post._id } });
       await user.save();
       return res

@@ -34,6 +34,7 @@ export const register = async (req, res) => {
     console.log(error);
   }
 };
+
 export const login = async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -75,6 +76,7 @@ export const login = async (req, res) => {
     user = {
       _id: user._id,
       username: user.username,
+      name: user.name,
       email: user.email,
       profilePicture: user.profilePicture,
       bio: user.bio,
@@ -125,7 +127,7 @@ export const getProfile = async (req, res) => {
 export const editProfile = async (req, res) => {
   try {
     const userId = req.id;
-    const { bio, gender } = req.body;
+    const {name, bio, gender } = req.body;
     const profilePicture = req.file;
     let cloudResponse;
 
@@ -141,6 +143,7 @@ export const editProfile = async (req, res) => {
         success: false,
       });
     }
+    if (name) user.name = name;
     if (bio) user.bio = bio;
     if (gender) user.gender = gender;
     if (profilePicture) user.profilePicture = cloudResponse.secure_url;
@@ -176,8 +179,8 @@ export const getSuggestedUsers = async (req, res) => {
 };
 export const followOrUnfollow = async (req, res) => {
   try {
-    const followKrneWala = req.id; // patel
-    const jiskoFollowKrunga = req.params.id; // shivani
+    const followKrneWala = req.id; 
+    const jiskoFollowKrunga = req.params.id; 
     if (followKrneWala === jiskoFollowKrunga) {
       return res.status(400).json({
         message: 'You cannot follow/unfollow yourself',
@@ -194,10 +197,10 @@ export const followOrUnfollow = async (req, res) => {
         success: false,
       });
     }
-    // mai check krunga ki follow krna hai ya unfollow
+    
     const isFollowing = user.following.includes(jiskoFollowKrunga);
     if (isFollowing) {
-      // unfollow logic ayega
+      // unfollow logic 
       await Promise.all([
         User.updateOne(
           { _id: followKrneWala },
@@ -212,7 +215,7 @@ export const followOrUnfollow = async (req, res) => {
         .status(200)
         .json({ message: 'Unfollowed successfully', success: true });
     } else {
-      // follow logic ayega
+      // follow logic 
       await Promise.all([
         User.updateOne(
           { _id: followKrneWala },

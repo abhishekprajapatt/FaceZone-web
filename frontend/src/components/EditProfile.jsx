@@ -24,6 +24,7 @@ const EditProfile = () => {
   const [loading, setLoading] = useState(false);
   const [input, setInput] = useState({
     profilePhoto: user?.profilePicture,
+    name: user?.name,
     bio: user?.bio,
     gender: user?.gender,
   });
@@ -43,6 +44,7 @@ const EditProfile = () => {
     console.log(input);
     const formData = new FormData();
     formData.append('bio', input.bio);
+    formData.append('name', input.name);
     formData.append('gender', input.gender);
     if (input.profilePhoto) {
       formData.append('profilePhoto', input.profilePhoto);
@@ -62,6 +64,7 @@ const EditProfile = () => {
       if (res.data.success) {
         const updatedUserData = {
           ...user,
+          name: res.data.user?.name,
           bio: res.data.user?.bio,
           profilePicture: res.data.user?.profilePicture,
           gender: res.data.user.gender,
@@ -82,16 +85,16 @@ const EditProfile = () => {
       <Card className="flex max-w-2xl mx-auto pl-10 my-10 p-8 rounded-2xl">
         <section className="flex flex-col gap-6 w-full my-8">
           <h1 className="font-bold text-xl">Edit Profile</h1>
-          <div className="flex items-center justify-between bg-gray-100 rounded-xl p-4">
+          <div className="sm:flex items-center justify-between sm:bg-gray-100 rounded-xl px-20 sm:px-auto sm:p-4">
             <div className="flex items-center gap-3">
-              <Avatar>
+              <Avatar className="w-28 h-28">
                 <AvatarImage src={user?.profilePicture} alt="post_image" />
                 <AvatarFallback>CN</AvatarFallback>
               </Avatar>
-              <div>
+              <div className="hidden sm:block">
                 <h1 className="font-bold text-sm">{user?.username}</h1>
-                <span className="text-gray-600">
-                  {user?.bio || 'Bio here...'}
+                <span className="text-gray-900">
+                  {user?.name || ''}
                 </span>
               </div>
             </div>
@@ -107,6 +110,15 @@ const EditProfile = () => {
             >
               Change photo
             </Button>
+          </div>
+          <div>
+            <h1 className="font-bold text-xl mb-2">Name</h1>
+            <Textarea
+              value={input.name}
+              onChange={(e) => setInput({ ...input, name: e.target.value })}
+              name="name"
+              className="focus-visible:ring-transparent"
+            />
           </div>
           <div>
             <h1 className="font-bold text-xl mb-2">Bio</h1>

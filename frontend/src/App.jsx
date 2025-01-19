@@ -15,7 +15,7 @@ import { setLikeNotification } from './redux/rtnSlice';
 import ProtectedRoutes from './components/ProtectedRoutes';
 import SuggestedUsers from './components/SuggestedUsers';
 import Network from './components/Network';
-import CreatePost from './components/CreatePost';
+import MobileCreatePost from './components/MobileCreatePost';
 
 const browserRouter = createBrowserRouter([
   {
@@ -72,6 +72,14 @@ const browserRouter = createBrowserRouter([
         element: (
           <ProtectedRoutes>
             <Network />
+          </ProtectedRoutes>
+        ),
+      },
+      {
+        path: '/createpost',
+        element: (
+          <ProtectedRoutes>
+            <MobileCreatePost />
           </ProtectedRoutes>
         ),
       },

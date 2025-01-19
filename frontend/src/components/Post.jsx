@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
 import { Dialog, DialogContent, DialogTrigger } from './ui/dialog';
 import { Bookmark, MessageCircle, MoreHorizontal, Send } from 'lucide-react';
@@ -10,12 +10,13 @@ import axios from 'axios';
 import { toast } from 'sonner';
 import { setPosts, setSelectedPost } from '@/redux/postSlice';
 import { Badge } from './ui/badge';
+import { Skeleton } from './ui/skeleton';
 
-const Post = ({ post }) => {
+const Post = ({ post, isLoading }) => {
   const [text, setText] = useState('');
   const [open, setOpen] = useState(false);
   const { user } = useSelector((store) => store.auth);
-  const { posts } = useSelector((store) => store.post);
+  const {posts} = useSelector((store) => store.post);
   const [liked, setLiked] = useState(post.likes.includes(user?._id) || false);
   const [postLike, setPostLike] = useState(post.likes.length);
   const [comment, setComment] = useState(post.comments);
@@ -91,6 +92,10 @@ const Post = ({ post }) => {
     }
   };
 
+  useEffect(() => {
+    if(isLoading) return <Loading/>
+  },[isLoading])
+
   const deletePostHandler = async () => {
     try {
       const res = await axios.delete(
@@ -144,7 +149,7 @@ const Post = ({ post }) => {
         </div>
         <Dialog>
           <DialogTrigger asChild>
-            <MoreHorizontal className="cursor-pointer px-2" />
+            <MoreHorizontal className="cursor-pointer mx-2 sm:mx-auto" />
           </DialogTrigger>
           <DialogContent className="flex flex-col items-center text-sm text-center">
             {post?.author?._id !== user?._id && (
@@ -218,7 +223,7 @@ const Post = ({ post }) => {
             dispatch(setSelectedPost(post));
             setOpen(true);
           }}
-          className="cursor-pointer text-sm text-gray-400"
+          className="cursor-pointer text-sm text-gray-400 px-2 md:px-0"
         >
           View all {comment.length} comments
         </span>
@@ -245,4 +250,46 @@ const Post = ({ post }) => {
   );
 };
 
+
+const Loading = () => (
+  <div className="md:my-8 w-full md:max-w-xl max-w-md md:mx-auto my-20">
+  <div className="flex items-center justify-between">
+    <div className="flex items-center gap-2 px-2 md:px-0">
+      <Avatar>
+        <Skeleton className="w-10 h-10 rounded-full" />
+        <AvatarFallback>CN</AvatarFallback>
+      </Avatar>
+      <div className="flex flex-col gap-1">
+        <Skeleton className="h-4 w-24" />
+        <Skeleton className="h-3 w-16" />
+      </div>
+    </div>
+    <Dialog>
+      <DialogTrigger asChild>
+        <MoreHorizontal className="cursor-pointer mx-2 sm:mx-auto" />
+      </DialogTrigger>
+      <DialogContent className="flex flex-col items-center text-sm text-center">
+        <Skeleton className="h-6 w-24" />
+        <Skeleton className="h-6 w-32 mt-2" />
+      </DialogContent>
+    </Dialog>
+  </div>
+  <Skeleton className="rounded-sm my-2 w-full aspect-square" />
+  <div className="flex items-center justify-between my-2 px-2 md:px-0">
+    <div className="flex items-center gap-3">
+      <Skeleton className="w-6 h-6 rounded-full" />
+      <Skeleton className="w-6 h-6 rounded-full" />
+      <Skeleton className="w-6 h-6 rounded-full" />
+    </div>
+    <Skeleton className="w-6 h-6 rounded-full" />
+  </div>
+  <Skeleton className="h-4 w-16 mb-2 px-2 md:px-0" />
+  <Skeleton className="h-4 w-full px-2 md:px-0" />
+  <Skeleton className="h-3 w-40 px-2 md:px-0 mt-1" />
+  <div className="flex items-center justify-between px-2 md:px-0 mt-3">
+    <Skeleton className="h-8 w-full rounded-md" />
+    <Skeleton className="h-8 w-12 rounded-md ml-2" />
+  </div>
+</div>
+)
 export default Post;
