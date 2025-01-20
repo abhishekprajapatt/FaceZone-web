@@ -15,6 +15,7 @@ import { useEffect } from 'react';
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
 import { Heart, MessageSquareText } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
+import { Button } from './ui/button';
 
 const OnlineUser = () => {
   const navigate = useNavigate();
