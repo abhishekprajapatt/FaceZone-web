@@ -235,7 +235,7 @@ const MobileProfile = ({
       </h1>
       <div className="grid grid-cols-1">
         <img 
-          src= userProfile?.profilePicture || "https://images.pexels.com/photos/30154480/pexels-photo-30154480/free-photo-of-dusk-at-the-beach-with-urban-skyline.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
+          src= userProfile?.bannerPicture || "https://images.pexels.com/photos/30154480/pexels-photo-30154480/free-photo-of-dusk-at-the-beach-with-urban-skyline.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
           alt=""
           className="w-full h-20"
         />
