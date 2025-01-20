@@ -175,7 +175,7 @@ const MobileLeftSidebar = ({
 }) => {
   const sidebarItems = [
     { icon: <Home size={28} />, text: 'Home' },
-    { icon: <PlusSquare size={28} className='md:hidden' />, text: 'CreatePost' },
+    { icon: <PlusSquare size={28} className='md:hidden' />, text: 'Create' },
     { icon: <Drama size={28} />, text: 'network' },
     { icon: <Frown size={28} />, text: 'Logout' },
     {

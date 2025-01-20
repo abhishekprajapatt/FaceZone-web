@@ -36,11 +36,11 @@ const Profile = () => {
                 <AvatarImage
                   src={
                     userProfile?.profilePicture ||
-                    'https://th.bing.com/th/id/OIP.YxvEw4Wl6-91Y0v8ntxuMwHaEK?rs=1&pid=ImgDetMain'
+                    'https://i.pinimg.com/474x/07/cf/97/07cf97356d99cb99415c8ad31cc417bf.jpg'
                   }
                   alt="profilephoto"
                 />
-                <AvatarFallback>CN</AvatarFallback>
+                <AvatarFallback><img src="https://i.pinimg.com/474x/07/cf/97/07cf97356d99cb99415c8ad31cc417bf.jpg" alt="" className="" /></AvatarFallback>
               </Avatar>
             </section>
             <section>
@@ -234,9 +234,9 @@ const MobileProfile = ({
         <span className="mt-[-0.2rem]"> {userProfile?.username}</span>{' '}
       </h1>
       <div className="grid grid-cols-1">
-        <img
-          src="https://images.pexels.com/photos/30154480/pexels-photo-30154480/free-photo-of-dusk-at-the-beach-with-urban-skyline.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
-          alt=""
+        <img 
+          src= {userProfile?.bannerPicture || "https://www.google.com/url?sa=i&url=https%3A%2F%2F4kwallpapers.com%2Fgames%2Fmarvels-spider-man-2-playstation-5-2021-games-1585.html&psig=AOvVaw14yr1qrth9KFezzKxzbWbZ&ust=1737495296409000&source=images&cd=vfe&opi=89978449&ved=0CBQQjRxqFwoTCNCy69WghYsDFQAAAAAdAAAAABAR"}
+          alt="img"
           className="w-full h-20"
         />
         <div className="flex gap-2 px-2">
@@ -244,11 +244,11 @@ const MobileProfile = ({
             <AvatarImage
               src={
                 userProfile?.profilePicture ||
-                'https://th.bing.com/th/id/OIP.YxvEw4Wl6-91Y0v8ntxuMwHaEK?rs=1&pid=ImgDetMain'
+                "https://i.pinimg.com/474x/07/cf/97/07cf97356d99cb99415c8ad31cc417bf.jpg"
               }
               alt="profilephoto"
             />
-            <AvatarFallback>CN</AvatarFallback>
+            <AvatarFallback><img src="https://i.pinimg.com/474x/07/cf/97/07cf97356d99cb99415c8ad31cc417bf.jpg" alt="" className="" /></AvatarFallback>
           </Avatar>
           <div className="grid grid-cols-3 gap-2 my-2">
             <h1 className="font-bold font-serif text-sm">

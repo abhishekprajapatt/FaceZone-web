@@ -34,7 +34,9 @@ const CommentDialog = ({ open, setOpen }) => {
   const sendMessageHandler = async () => {
     try {
       const res = await axios.post(
-        `${import.meta.env.VITE_BACKEND_URL}/api/v1/post/${selectedPost?._id}/comment`,
+        `${import.meta.env.VITE_BACKEND_URL}/api/v1/post/${
+          selectedPost?._id
+        }/comment`,
         { text },
         {
           headers: {
@@ -64,19 +66,22 @@ const CommentDialog = ({ open, setOpen }) => {
 
   return (
     <Dialog open={open}>
+      <DialogTrigger asChild>
+        <MoreHorizontal className="cursor-pointer" />
+      </DialogTrigger>
       <DialogContent
         onInteractOutside={() => setOpen(false)}
-        className="max-w-5xl p-0 flex flex-col"
+        className="max-w-5xl text-white"
       >
-        <div className="flex flex-1">
-          <div className="w-1/2">
+        <div className="grid grid-cols-1 md:grid-cols-2">
+          <div className="h-[6rem] md:w-1/2">
             <img
               src={selectedPost?.image}
               alt="post_img"
-              className="w-full h-full object-cover rounded-l-lg"
+              className="w-full h-full object-cover md:rounded-l-lg"
             />
           </div>
-          <div className="w-1/2 flex flex-col justify-between">
+          <div className="md:w-1/2 flex flex-col justify-between">
             <div className="flex items-center justify-between p-4">
               <div className="flex gap-3 items-center">
                 <Link>
@@ -118,14 +123,15 @@ const CommentDialog = ({ open, setOpen }) => {
                   value={text}
                   onChange={changeEventHandler}
                   placeholder="Add a comment..."
-                  className="w-full outline-none border text-sm border-gray-300 p-2 rounded"
-                />
+                  className="outline-none text-xs px-6 py-2 rounded-xl border border-gray-200"
+                  />
                 <Button
                   disabled={!text.trim()}
                   onClick={sendMessageHandler}
                   variant="outline"
+                  className="bg-blue-700 font-mono text-white cursor-pointer rounded-full px-2 mx-1"
                 >
-                  Send
+                  Comment
                 </Button>
               </div>
             </div>

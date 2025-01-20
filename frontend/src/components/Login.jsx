@@ -60,8 +60,8 @@ const Login = () => {
     }
   }, []);
   return (
-    <div className="flex md:gap-10 items-center w-screen h-screen justify-center">
-      <img src={PhonePng} alt="" className="w-[30rem] hidden md:block" />
+    <div className=" bg-black flex md:gap-10 items-center w-screen h-screen justify-center">
+      <img src={PhonePng} alt="" className="w-[50rem] hidden md:block" />
       <form
         onSubmit={loginHandler}
         className="flex flex-col items-center justify-center gap-4 md:p-8 bg-gradient-to-t from-[#f0abdc] to-[#88aae5] rounded-lg h-screen w-screen md:w-auto md:h-auto border border-gray-600"
@@ -98,7 +98,7 @@ const Login = () => {
         </div>
         {loading ? (
           <Button>
-            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+            <Loader2 className="mr-2 animate-spin bg-gradient-to-t from-red-600 to-pink-400 px-28 py-3 rounded-full text-center text-white" />
             Please wait
           </Button>
         ) : (

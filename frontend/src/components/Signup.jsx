@@ -138,7 +138,7 @@ const Signup = () => {
         </div>
         {loading ? (
           <Button>
-            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+            <Loader2 className="mr-2 animate-spin bg-gradient-to-t from-red-600 to-pink-400 px-28 py-3 rounded-full text-center text-white" />
             Please wait
           </Button>
         ) : (
