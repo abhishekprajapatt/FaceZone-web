@@ -235,13 +235,8 @@ const MobileProfile = ({
       </h1>
       <div className="grid grid-cols-1">
         <img 
-<<<<<<< HEAD
           src= {userProfile?.bannerPicture || "https://www.google.com/url?sa=i&url=https%3A%2F%2F4kwallpapers.com%2Fgames%2Fmarvels-spider-man-2-playstation-5-2021-games-1585.html&psig=AOvVaw14yr1qrth9KFezzKxzbWbZ&ust=1737495296409000&source=images&cd=vfe&opi=89978449&ved=0CBQQjRxqFwoTCNCy69WghYsDFQAAAAAdAAAAABAR"}
           alt="img"
-=======
-          src= {userProfile?.bannerPicture || "https://images.pexels.com/photos/30154480/pexels-photo-30154480/free-photo-of-dusk-at-the-beach-with-urban-skyline.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"}
-          alt=""
->>>>>>> 9dfcef384f50c45f696c4b9ad26b42a69fbe180e
           className="w-full h-20"
         />
         <div className="flex gap-2 px-2">
