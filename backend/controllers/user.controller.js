@@ -6,8 +6,8 @@ import cloudinary from '../utils/cloudinary.js';
 import { Post } from '../models/post.model.js';
 export const register = async (req, res) => {
   try {
-    const { username, email, password } = req.body;
-    if (!username || !email || !password) {
+    const { username, email, password, birthday } = req.body;
+    if (!username || !email || !password || !birthday) {
       return res.status(401).json({
         message: 'Something is missing, please check!',
         success: false,
@@ -25,6 +25,7 @@ export const register = async (req, res) => {
       username,
       email,
       password: hashedPassword,
+      birthday
     });
     return res.status(201).json({
       message: 'Account created successfully.',
@@ -63,7 +64,6 @@ export const login = async (req, res) => {
       expiresIn: '1d',
     });
 
-    // populate each post if in the posts array
     const populatedPosts = await Promise.all(
       user.posts.map(async (postId) => {
         const post = await Post.findById(postId);
@@ -78,7 +78,9 @@ export const login = async (req, res) => {
       username: user.username,
       name: user.name,
       email: user.email,
+      birthday:user.birthday,
       profilePicture: user.profilePicture,
+      bannerPicture: user.bannerPicture,
       bio: user.bio,
       followers: user.followers,
       following: user.following,
@@ -124,15 +126,76 @@ export const getProfile = async (req, res) => {
   }
 };
 
+
 export const editProfile = async (req, res) => {
   try {
+    const userId = req.id; // User ID from the request (assume it's set in middleware)
+    const { name, bio, gender } = req.body; // Destructure the body fields
+    const profilePicture = req.files?.profilePicture?.[0]; // Access `profilePicture` file
+    const bannerPicture = req.files?.bannerPicture?.[0]; // Access `bannerPicture` file
+    let profilePictureResponse, bannerPictureResponse;
+
+    // Handle `profilePicture` upload
+    if (profilePicture) {
+      const fileUri = getDataUri(profilePicture);
+      profilePictureResponse = await cloudinary.uploader.upload(fileUri);
+    }
+
+    // Handle `bannerPicture` upload
+    if (bannerPicture) {
+      const fileUri = getDataUri(bannerPicture);
+      bannerPictureResponse = await cloudinary.uploader.upload(fileUri);
+    }
+
+    // Find the user in the database
+    const user = await User.findById(userId).select('-password');
+    if (!user) {
+      return res.status(404).json({
+        message: 'User not found.',
+        success: false,
+      });
+    }
+
+    // Update user fields
+    if (name) user.name = name;
+    if (bio) user.bio = bio;
+    if (gender) user.gender = gender;
+    if (profilePictureResponse) user.profilePicture = profilePictureResponse.secure_url;
+    if (bannerPictureResponse) user.bannerPicture = bannerPictureResponse.secure_url;
+
+    // Save the updated user
+    await user.save();
+
+    return res.status(200).json({
+      message: 'Profile updated successfully.',
+      success: true,
+      user,
+    });
+  } catch (error) {
+    console.error('Error updating profile:', error);
+    return res.status(500).json({
+      message: 'An error occurred while updating the profile.',
+      success: false,
+    });
+  }
+};
+
+
+
+export const ditProfile = async (req, res) => {
+  try {
     const userId = req.id;
-    const {name, bio, gender } = req.body;
+    const {name, bio, gender,} = req.body;
     const profilePicture = req.file;
+    const  bannerPicture = req.file;
     let cloudResponse;
 
     if (profilePicture) {
       const fileUri = getDataUri(profilePicture);
+      cloudResponse = await cloudinary.uploader.upload(fileUri);
+    }
+    if (bannerPicture) {
+      const fileUri = getDataUri(bannerPicture);
       cloudResponse = await cloudinary.uploader.upload(fileUri);
     }
 
@@ -147,6 +210,7 @@ export const editProfile = async (req, res) => {
     if (bio) user.bio = bio;
     if (gender) user.gender = gender;
     if (profilePicture) user.profilePicture = cloudResponse.secure_url;
+    if (bannerPicture) user.bannerPicture = cloudResponse.secure_url;
 
     await user.save();
 
@@ -159,6 +223,7 @@ export const editProfile = async (req, res) => {
     console.log(error);
   }
 };
+
 export const getSuggestedUsers = async (req, res) => {
   try {
     const suggestedUsers = await User.find({ _id: { $ne: req.id } }).select(

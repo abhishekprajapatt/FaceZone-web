@@ -183,8 +183,8 @@ const OnlineUser = () => {
             className="w-full max-w-sm hidden md:block"
           >
             <CarouselContent>
-              {suggestedUsers.map((suggestedUser) => {
-                const isOnline = onlineUsers.includes(suggestedUser?._id);
+              {suggestedUsers?.map((suggestedUser) => {
+                const isOnline = onlineUsers?.includes(suggestedUser?._id);
                 return (
                   <CarouselItem
                     key={''}
@@ -192,14 +192,14 @@ const OnlineUser = () => {
                   >
                     {isOnline && (
                       <div className="p-1">
-                        <Card className="rounded-full w-28 h-28">
+                        <Card className="">
                           <div
                             onClick={() =>
                               dispatch(setSelectedUser(suggestedUser))
                             }
                             className=""
                           >
-                            <Avatar className="hover:bg-gray-50 cursor-pointer w-28 h-28">
+                            <Avatar className="">
                               <AvatarImage
                                 src={
                                   suggestedUser?.profilePicture ||

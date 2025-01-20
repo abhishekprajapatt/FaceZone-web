@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import PhonePng from "../assets/phone.png"
 import { Input } from './ui/input';
 import { Button } from './ui/button';
 import axios from 'axios';
@@ -22,7 +23,7 @@ const Login = () => {
     setInput({ ...input, [e.target.name]: e.target.value });
   };
 
-  const signupHandler = async (e) => {
+  const loginHandler = async (e) => {
     e.preventDefault();
     try {
       setLoading(true);
@@ -59,35 +60,40 @@ const Login = () => {
     }
   }, []);
   return (
-    <div className="flex items-center w-screen h-screen justify-center">
+    <div className="flex md:gap-10 items-center w-screen h-screen justify-center">
+      <img src={PhonePng} alt="" className="w-[30rem] hidden md:block" />
       <form
-        onSubmit={signupHandler}
-        className="shadow-lg flex flex-col gap-5 p-8"
+        onSubmit={loginHandler}
+        className="flex flex-col items-center justify-center gap-4 md:p-8 bg-gradient-to-t from-[#f0abdc] to-[#88aae5] rounded-lg h-screen w-screen md:w-auto md:h-auto border border-gray-600"
       >
         <div className="my-4">
-          <h1 className="text-center font-bold font-serif text-xl">FaceZone</h1>
-          <p className="text-sm text-center">
+          <h1 className="text-center font-bold font-serif text-2xl">
+            FaceZone
+          </h1>
+          <p className="text-xs md:text-sm text-center">
             Login to see photos & videos from your friends
           </p>
         </div>
         <div>
-          <span className="font-medium">Email</span>
-          <Input
+          <h1 className="font-medium font-sans-serif text-gray-800">Email</h1>
+          <input
             type="email"
             name="email"
             value={input.email}
             onChange={changeEventHandler}
-            className="my-2"
+            className="px-12 py-2 rounded-lg border border-gray-600"
           />
         </div>
         <div>
-          <span className="font-medium">Password</span>
-          <Input
+          <h1 className="font-medium font-sans-serif text-gray-800">
+            Password
+          </h1>
+          <input
             type="password"
             name="password"
             value={input.password}
             onChange={changeEventHandler}
-            className="my-2"
+            className="px-12 py-2 rounded-lg border border-gray-600"
           />
         </div>
         {loading ? (
@@ -96,7 +102,12 @@ const Login = () => {
             Please wait
           </Button>
         ) : (
-          <Button type="submit">Login</Button>
+          <Button
+            type="submit"
+            className="bg-gradient-to-t from-red-600 to-pink-400 px-28 py-3 rounded-full text-center text-white"
+          >
+            Login
+          </Button>
         )}
 
         <span className="text-center">

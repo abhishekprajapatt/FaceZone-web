@@ -129,7 +129,7 @@ const Post = ({ post, isLoading }) => {
     }
   };
   return (
-    <div className="md:my-8 w-full md:max-w-xl max-w-md md:mx-auto my-20">
+    <div className="md:my-8 w-full md:max-w-xl max-w-md md:mx-auto my-20 py-2 rounded-lg">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2 px-2 md:px-0">
           <Avatar>
