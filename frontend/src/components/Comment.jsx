@@ -10,7 +10,7 @@ const Comment = ({ comment }) => {
           <AvatarFallback>CN</AvatarFallback>
         </Avatar>
         <h1 className="font-bold text-sm">
-          {comment?.author.username}{' '}
+          {comment?.author?.username}{' '}
           <span className="font-normal pl-1">{comment?.text}</span>
         </h1>
       </div>

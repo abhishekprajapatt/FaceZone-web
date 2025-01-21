@@ -225,6 +225,7 @@ export const getCommentsOfPost = async (req, res) => {
     console.log(error);
   }
 };
+
 export const deletePost = async (req, res) => {
   try {
     const postId = req.params.id;

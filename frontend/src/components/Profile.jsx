@@ -44,7 +44,7 @@ const Profile = () => {
               alt="img"
               className="w-full h-20 border border-gray-100"
             />
-            <div className="flex gap-2 px-2 sm:gap-12">
+            <div className="flex gap-2 px-1 sm:gap-12">
               <Avatar className="w-28 h-28 border border-2 border-gray-500 mt-[-3rem]">
                 <AvatarImage
                   src={
@@ -70,7 +70,7 @@ const Profile = () => {
                   {userProfile?.followers?.length}
                   <h1>followers</h1>
                 </h1>
-                <h1 className="font-bold font-serif text-sm mx-3">
+                <h1 className="font-bold font-serif text-sm mx-1 px-2">
                   {userProfile?.following?.length}
                   <h1>following</h1>
                 </h1>

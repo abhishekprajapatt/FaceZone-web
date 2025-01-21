@@ -45,7 +45,6 @@ const CommentDialog = ({ open, setOpen }) => {
           withCredentials: true,
         }
       );
-
       if (res.data.success) {
         const updatedCommentData = [...comment, res.data.comment];
         setComment(updatedCommentData);
@@ -64,10 +63,12 @@ const CommentDialog = ({ open, setOpen }) => {
     }
   };
 
+  console.log("all comment",comment)
+
   return (
     <Dialog open={open}>
       <DialogTrigger asChild>
-        <MoreHorizontal className="cursor-pointer" />
+          <MoreHorizontal className="cursor-pointer" />
       </DialogTrigger>
       <DialogContent
         onInteractOutside={() => setOpen(false)}

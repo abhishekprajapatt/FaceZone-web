@@ -16,6 +16,7 @@ import ProtectedRoutes from './components/ProtectedRoutes';
 import SuggestedUsers from './components/SuggestedUsers';
 import Network from './components/Network';
 import MobileCreatePost from './components/MobileCreatePost';
+import AllUserPost from './components/AllUserPost';
 
 const browserRouter = createBrowserRouter([
   {
@@ -80,6 +81,14 @@ const browserRouter = createBrowserRouter([
         element: (
           <ProtectedRoutes>
             <MobileCreatePost />
+          </ProtectedRoutes>
+        ),
+      },
+      {
+        path: '/alluserpost',
+        element: (
+          <ProtectedRoutes>
+            <AllUserPost />
           </ProtectedRoutes>
         ),
       },

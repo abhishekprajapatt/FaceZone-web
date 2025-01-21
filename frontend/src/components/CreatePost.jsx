@@ -10,6 +10,7 @@ import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import { setPosts } from '@/redux/postSlice';
 import crtPost from '../assets/createPost.png';
+import { Link } from 'react-router-dom';
 
 const CreatePost = ({ open, setOpen }) => {
   const imageRef = useRef('');
@@ -131,7 +132,7 @@ const CreatePost = ({ open, setOpen }) => {
                     {user?.username}
                   </h1>
                   <span className="text-gray-400 font-thin text-xs">
-                    @{user?.username}
+                    {`${user?.bio?.slice(0, 30)}...`}
                   </span>
                 </div>
               </div>
@@ -200,7 +201,10 @@ const CreatePost = ({ open, setOpen }) => {
           <div className="hidden md:block fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
             <div className="bg-gray-800 rounded-lg p-6 w-96">
               <div className="flex gap-4 text-center font-bold font-serif text-white">
-                <Link to={`/profile/${user?._id}`}> <ArrowLeft onClick={navigate(`/profile/${user?._id}`)} /></Link>
+                <Link to={`/profile/${user?._id}`}>
+                  {' '}
+                  <ArrowLeft />
+                </Link>
                 Create New Post
               </div>
               <div className="flex gap-3 items-center mb-4">
@@ -222,7 +226,7 @@ const CreatePost = ({ open, setOpen }) => {
                     {user?.username}
                   </h1>
                   <span className="text-gray-400 font-thin text-xs">
-                    @{user?.username}
+                    {user?.bio}
                   </span>
                 </div>
               </div>

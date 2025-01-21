@@ -20,17 +20,16 @@ import { setPosts, setSelectedPost } from '@/redux/postSlice';
 import { Badge } from './ui/badge';
 import { Skeleton } from './ui/skeleton';
 
-const Post = ({ post, isLoading }) => {
+const AllUserPost = ({ post, isLoading }) => {
   const [text, setText] = useState('');
   const [open, setOpen] = useState(false);
+//   const { userProfile, user } = useSelector((store) => store.auth);
   const { user } = useSelector((store) => store.auth);
   const { posts } = useSelector((store) => store.post);
-  const [liked, setLiked] = useState(post.likes.includes(user?._id) || false);
+  const [liked, setLiked] = useState(post?.likes?.includes(user?._id) || false);
   const [postLike, setPostLike] = useState(post?.likes?.length);
-  const [comment, setComment] = useState(post.comments);
+  const [comment, setComment] = useState(post?.comments);
   const dispatch = useDispatch();
-  const currentComment = comment?.slice(0, 3).map((comment) => comment.author);
-  const firstUser = comment[0]?.author;
 
   const changeEventHandler = (e) => {
     const inputText = e.target.value;
@@ -41,7 +40,6 @@ const Post = ({ post, isLoading }) => {
     }
   };
 
-  // console.log(post.author);
   const likeOrDislikeHandler = async () => {
     try {
       const action = liked ? 'dislike' : 'like';
@@ -49,7 +47,7 @@ const Post = ({ post, isLoading }) => {
         `${import.meta.env.VITE_BACKEND_URL}/api/v1/post/${post._id}/${action}`,
         { withCredentials: true }
       );
-      // console.log(res.data);
+      console.log(res.data);
       if (res.data.success) {
         const updatedLikes = liked ? postLike - 1 : postLike + 1;
         setPostLike(updatedLikes);
@@ -85,7 +83,7 @@ const Post = ({ post, isLoading }) => {
           withCredentials: true,
         }
       );
-      // console.log(res.data);
+      console.log(res.data);
       if (res.data.success) {
         const updatedCommentData = [...comment, res.data.comment];
         setComment(updatedCommentData);
@@ -146,14 +144,14 @@ const Post = ({ post, isLoading }) => {
   };
 
   console.log('comment ', comment);
-  // console.log('like ', postLike);
+  console.log('like ', postLike);
   return (
     <div className="border border-gray-200 md:my-8 w-full md:max-w-xl md:mx-auto my-16 py-2 rounded-sm md:rounded-lg bg-gray-50">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2 px-2">
           <Avatar>
             <AvatarImage
-              src={post.author?.profilePicture}
+              src={post?.author?.profilePicture}
               alt="post_image"
               className=""
             />
@@ -161,12 +159,10 @@ const Post = ({ post, isLoading }) => {
           </Avatar>
           <div className="">
             <h1 className=" flex gap-28 font-bold font-sans text-gray-800">
-              {post.author?.username}{' '}
-              {user?._id === post.author._id && (
-                <Badge variant="secondary">Author</Badge>
-              )}
+              {post?.author?.username}{' '}
+            <Badge variant="secondary">Author</Badge>
             </h1>
-            <h1 className="text-xs text-gray-400">{`${post.author?.bio.slice(
+            <h1 className="text-xs text-gray-400">{`${post?.author?.bio.slice(
               0,
               35
             )}...`}</h1>
@@ -208,7 +204,7 @@ const Post = ({ post, isLoading }) => {
       </div>
       <img
         className="rounded-sm my-2 w-full aspect-square object-cover"
-        src={post.image}
+        src={post?.image}
         alt="post_img"
       />
       <div className="flex items-center justify-between my-2 px-2">
@@ -258,44 +254,16 @@ const Post = ({ post, isLoading }) => {
         />
       </div>
       <span className="font-medium block mb-2 px-2">
-        <div className="flex">
-          {currentComment.map((comment, _) => (
-            <div key={comment._id} className="mx-[-0.3rem]">
-              <Avatar className="w-6 h-6">
-                <AvatarImage
-                  src={comment?.author?.profilePicture}
-                  alt=""
-                  className=""
-                />
-                <AvatarFallback>CN</AvatarFallback>
-              </Avatar>
-            </div>
-          ))}
-          {comment.length > 0 && (
-            <span onClick={() => {dispatch(setSelectedPost(post)); setOpen(true);}} className="font-sans text-gray-800 px-2">Comment by {firstUser?.username} and {comment?.length - 1} others</span>
-          )}
-        </div>
-        {/* <Avatar>
-          <AvatarImage
-            src={currentComment?.author?.profilePicture}
-            alt="post_image"
-            className=""
-          />
-          <AvatarFallback>CN</AvatarFallback>
-        </Avatar>
-        <span>
-          Comment by {currentComment?.author?.username} and{' '}
-          {comment?.length - 1} others
-        </span> */}
+        Comment by {comment?.author?.username} and {comment?.length} others
       </span>
       <div className="px-2">
         {post?.caption?.length > 30 ? (
           isExpanded ? (
             <>
-              <span className="font-bold mr-1">
+              <span className="font-medium font-extrabold mr-1">
                 {post?.author?.username}
               </span>
-              <span className="text-xs">{post?.caption}</span>
+              <span className="text-sm">{post?.caption}</span>
               <span
                 onClick={toggleExpansion}
                 className="text-gray-600 cursor-pointer mx-1 cursor-pointer text-sm underline"
@@ -305,10 +273,10 @@ const Post = ({ post, isLoading }) => {
             </>
           ) : (
             <>
-              <span className="font-bold mr-1">
+              <span className="font-medium font-extrabold mr-1">
                 {post?.author?.username}
               </span>
-              <span className="text-sm">{post?.caption?.slice(0, 30)}...</span>
+              <span className="text-sm">{post?.caption.slice(0, 30)}...</span>
               <span
                 onClick={toggleExpansion}
                 className="text-gray-600 text-sm cursor-pointer mx-1 cursor-pointer underline"
@@ -329,6 +297,17 @@ const Post = ({ post, isLoading }) => {
       {/* <span>{`${post?.author?.username}`}</span> */}
       {/* <span>{`${post?.caption.slice(0, 30)}...`}}</span> */}
       {/* {post?.caption} */}
+      {comment.length > 0 && (
+        <span
+          onClick={() => {
+            dispatch(setSelectedPost(post));
+            setOpen(true);
+          }}
+          className="cursor-pointer text-sm text-gray-400 px-2"
+        >
+          View all {comment?.length} comments
+        </span>
+      )}
       <CommentDialog open={open} setOpen={setOpen} />
       <div className="flex items-center justify-between px-2">
         <input
@@ -392,4 +371,4 @@ const Loading = () => (
     </div>
   </div>
 );
-export default Post;
+export default AllUserPost;

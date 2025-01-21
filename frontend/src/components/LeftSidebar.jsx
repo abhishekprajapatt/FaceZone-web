@@ -20,6 +20,15 @@ import CreatePost from './CreatePost';
 import { setPosts, setSelectedPost } from '@/redux/postSlice';
 import { Popover, PopoverContent, PopoverTrigger } from './ui/popover';
 import { Button } from './ui/button';
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from './ui/select';
 
 const LeftSidebar = () => {
   const navigate = useNavigate();
@@ -53,7 +62,7 @@ const LeftSidebar = () => {
     } else if (textType === 'Create') {
       setOpen(true);
     } else if (textType === 'CreatePost') {
-      navigate("/createpost")
+      navigate('/createpost');
     } else if (textType === 'Profile') {
       navigate(`/profile/${user?._id}`);
     } else if (textType === 'Home') {
@@ -68,7 +77,10 @@ const LeftSidebar = () => {
     { icon: <Home />, text: 'Home' },
     { icon: <MessageCircle />, text: 'Messages' },
     { icon: <Heart />, text: 'Notifications' },
-    { icon: <PlusSquare className='hidden md:block' />, text: 'Create' },
+    {
+      icon: <PlusSquare className="hidden md:block" />,
+      text: 'Create',
+    },
     {
       icon: (
         <Avatar className="w-6 h-6">
@@ -91,6 +103,14 @@ const LeftSidebar = () => {
           <h1 className="my-8 pl-3 font-bold text-xl text-blue-600 md:hidden">
             FZ
           </h1>
+          {/* <>
+            {open == true && (
+              <div className="grid grid-cols-1 gap-2 bg-gray-100 rounded-xl text-center">
+                <h1 className="hover:bg-gray-200 py-2 font-bold text-gray-800 cursor-pointer rounded-xl">Post</h1>
+                <h1 className="hover:bg-gray-200 py-2 font-bold text-gray-800 cursor-pointer rounded-xl">Reels</h1>
+              </div>
+            )}
+          </> */}
           <div>
             {sidebarItems.map((item, index) => {
               return (
@@ -151,7 +171,7 @@ const LeftSidebar = () => {
             })}
           </div>
         </div>
-        <CreatePost open={open} setOpen={setOpen} />
+        {/* <CreatePost open={open} setOpen={setOpen} /> */}
       </div>
       <MobileLeftSidebar
         user={user}
@@ -175,7 +195,14 @@ const MobileLeftSidebar = ({
 }) => {
   const sidebarItems = [
     { icon: <Home size={28} />, text: 'Home' },
-    { icon: <PlusSquare size={28} className='md:hidden' />, text: 'Create' },
+    {
+      icon: (
+        <>
+          <PlusSquare size={28} className="md:hidden" />
+        </>
+      ),
+      text: 'Create',
+    },
     { icon: <Drama size={28} />, text: 'network' },
     { icon: <Frown size={28} />, text: 'Logout' },
     {
@@ -252,6 +279,14 @@ const MobileLeftSidebar = ({
           })}
         </div>
       </div>
+      <>
+        {open && (
+          <div className="bg-red-700 w-full">
+            <h1 className="">Post</h1>
+            <h1 className="">Reels</h1>
+          </div>
+        )}
+      </>
       <CreatePost open={open} setOpen={setOpen} />
     </div>
   );
