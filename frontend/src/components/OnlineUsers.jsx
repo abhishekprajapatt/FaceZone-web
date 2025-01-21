@@ -108,7 +108,7 @@ const OnlineUser = () => {
         <CarouselNext />
       </Carousel>
       <div className="md:hidden fixed grid grid-cols-2 ">
-        <div className="border border-gray-200 grid grid-cols-2 shadow-sm shadow-gray-50 gap-[3rem] fixed top-0 left-0 px-2 bg-white py- w-full">
+        <div className="border border-gray-200 grid grid-cols-2 shadow-sm shadow-gray-50 gap-[3rem] fixed top-0 left-0 px-2 bg-white py-2 w-full">
           <h1 className="flex gap-2 font-extrabold text-2xl">
             <Link to="/" className="font-extrabold font-serif text-2xl my-2">
               FaceZone

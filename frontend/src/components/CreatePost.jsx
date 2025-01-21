@@ -273,7 +273,7 @@ const CreatePost = ({ open, setOpen }) => {
               {imagePreview &&
                 (loading ? (
                   <Button>
-                    <Loader2 className="mr-2 w-full py-2 animate-spin" />
+                    <Loader2 className="mr-2 w-full py-2 text-blue-600 animate-spin" />
                     Please wait
                   </Button>
                 ) : (
