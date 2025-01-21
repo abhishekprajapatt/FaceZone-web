@@ -50,13 +50,13 @@ export const getAllPost = async (req, res) => {
   try {
     const posts = await Post.find()
       .sort({ createdAt: -1 })
-      .populate({ path: 'author', select: 'username profilePicture' })
+      .populate({ path: 'author', select: 'username profilePicture bio' })
       .populate({
         path: 'comments',
         sort: { createdAt: -1 },
         populate: {
           path: 'author',
-          select: 'username profilePicture',
+          select: 'username profilePicture bio',
         },
       });
     return res.status(200).json({
@@ -74,20 +74,20 @@ export const getUserPost = async (req, res) => {
       .sort({ createdAt: -1 })
       .populate({
         path: 'author',
-        select: 'username, profilePicture',
+        select: 'username profilePicture',
       })
       .populate({
         path: 'comments',
         sort: { createdAt: -1 },
         populate: {
           path: 'author',
-          select: 'username, profilePicture',
+          select: 'username profilePicture',
         },
       });
-    return res.status(200).json({
-      posts,
-      success: true,
-    });
+      return res.status(200).json({
+        posts,
+        success: true,
+      });
   } catch (error) {
     console.log(error);
   }
@@ -126,8 +126,11 @@ export const likePost = async (req, res) => {
     }
 
     return res.status(200).json({ message: 'Post liked', success: true });
-  } catch (error) {}
+  } catch (error) {
+    console.log(error);
+  }
 };
+
 export const dislikePost = async (req, res) => {
   try {
     const likeKrneWalaUserKiId = req.id;
@@ -161,8 +164,11 @@ export const dislikePost = async (req, res) => {
     }
 
     return res.status(200).json({ message: 'Post disliked', success: true });
-  } catch (error) {}
+  } catch (error) {
+    console.log(error);
+  }
 };
+
 export const addComment = async (req, res) => {
   try {
     const postId = req.params.id;
@@ -230,19 +236,15 @@ export const deletePost = async (req, res) => {
         .status(404)
         .json({ message: 'Post not found', success: false });
 
-    // check if the logged-in user is the owner of the post
     if (post.author.toString() !== authorId)
       return res.status(403).json({ message: 'Unauthorized' });
 
-    // delete post
     await Post.findByIdAndDelete(postId);
 
-    // remove the post id from the user's post
     let user = await User.findById(authorId);
     user.posts = user.posts.filter((id) => id.toString() !== postId);
     await user.save();
 
-    // delete associated comments
     await Comment.deleteMany({ post: postId });
 
     return res.status(200).json({

@@ -4,7 +4,7 @@ import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
 import { Textarea } from './ui/textarea';
 import { Button } from './ui/button';
 import { readFileAsDataURL } from '@/lib/utils';
-import { Loader2 } from 'lucide-react';
+import { ArrowLeft, Loader2, X } from 'lucide-react';
 import { toast } from 'sonner';
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
@@ -106,11 +106,101 @@ const CreatePost = ({ open, setOpen }) => {
       {open && (
         <>
           {/* Mobile */}
-
-          {/* Desktop */}
-          <div className=" fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+          <div className="md:hidden fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
             <div className="bg-gray-800 rounded-lg p-6 w-96">
-              <div className="text-center font-semibold text-white mb-4">
+              <div className="flex gap-4 text-center font-bold font-serif text-white">
+                <X />
+                Create New Post
+              </div>
+              <div className="flex gap-3 items-center mb-4">
+                <div className="w-12 h-12 rounded-full overflow-hidden">
+                  {user?.profilePicture ? (
+                    <img
+                      src={user?.profilePicture}
+                      alt="Profile"
+                      className="object-cover w-full h-full"
+                    />
+                  ) : (
+                    <div className="w-full h-full bg-gray-600 flex items-center justify-center">
+                      CN
+                    </div>
+                  )}
+                </div>
+                <div>
+                  <h1 className="font-semibold text-xs text-gray-200">
+                    {user?.username}
+                  </h1>
+                  <span className="text-gray-400 font-thin text-xs">
+                    @{user?.username}
+                  </span>
+                </div>
+              </div>
+
+              <button
+                onClick={() => imageRef?.current?.click()}
+                className="block md:hidden w-full text-white bg-blue-500 rounded-md py-2 mb-4"
+              >
+                <img
+                  src={crtPost}
+                  width={50}
+                  alt="Select"
+                  className="inline-block mr-2"
+                />
+                Select Your Pic...
+              </button>
+              {imagePreview && (
+                <>
+                  <div className="w-full h-64 flex items-center justify-center mb-4">
+                    <img
+                      src={imagePreview}
+                      alt="Preview"
+                      className="object-cover h-full w-full rounded-md"
+                    />
+                  </div>
+                  <textarea
+                    value={caption}
+                    onChange={(e) => setCaption(e.target.value)}
+                    className="w-full p-2 rounded-md bg-gray-700 text-white resize-none mb-4"
+                    placeholder="Write a caption..."
+                  ></textarea>
+                </>
+              )}
+              <input
+                ref={imageRef}
+                type="file"
+                accept="image/*"
+                className="hidden"
+                onChange={fileChangeHandler}
+              />
+              <button
+                onClick={() => imageRef.current.click()}
+                className="hidden md:block w-full bg-blue-500 hover:bg-blue-600 text-white rounded-md py-2 mb-4"
+              >
+                Select Pic from Your Computer
+              </button>
+
+              {imagePreview &&
+                (loading ? (
+                  <Button>
+                    <Loader2 className="mr-2 w-full py-2 animate-spin" />
+                    Please wait
+                  </Button>
+                ) : (
+                  <Button
+                    onClick={createPostHandler}
+                    type="submit"
+                    className="w-full bg-blue-500 hover:bg-blue-600 text-white rounded-md py-2"
+                  >
+                    Post
+                  </Button>
+                ))}
+            </div>
+          </div>
+          {/* Desktop */}
+          <div className="hidden md:block fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+            <div className="bg-gray-800 rounded-lg p-6 w-96">
+              <div className="flex gap-4 text-center font-bold font-serif text-white">
+                <Link to={`/profile/${user?._id}`}> <ArrowLeft onClick={navigate(`/profile/${user?._id}`)} /></Link>
                 Create New Post
               </div>
               <div className="flex gap-3 items-center mb-4">

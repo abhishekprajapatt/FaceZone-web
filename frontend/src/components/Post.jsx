@@ -39,6 +39,7 @@ const Post = ({ post, isLoading }) => {
     }
   };
 
+  console.log(post.author)
   const likeOrDislikeHandler = async () => {
     try {
       const action = liked ? 'dislike' : 'like';
@@ -145,7 +146,7 @@ const Post = ({ post, isLoading }) => {
   console.log('comment ', comment);
   console.log('like ', postLike);
   return (
-    <div className="border border-gray-200 md:my-8 w-full md:max-w-xl max-w-md md:mx-auto my-20 py-2 rounded-sm md:rounded-lg bg-gray-50">
+    <div className="border border-gray-200 md:my-8 w-full md:max-w-xl md:mx-auto my-12 py-2 rounded-sm md:rounded-lg bg-gray-50">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2 px-2">
           <Avatar>
@@ -157,8 +158,10 @@ const Post = ({ post, isLoading }) => {
             <AvatarFallback>CN</AvatarFallback>
           </Avatar>
           <div className="flex items-center gap-3">
-            <h1>{post.author?.username}</h1>
-            <h1>{post.author?.bio?.slice(0, 10)}</h1>
+            <div className="">
+              <h1 className="font-bold font-sans text-gray-800">{post.author?.username}</h1>
+              <h1 className="text-xs text-gray-400">{post.author?.bio.slice(0,28)}</h1>
+            </div>
             {user?._id === post.author._id && (
               <Badge variant="secondary">Author</Badge>
             )}
