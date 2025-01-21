@@ -279,14 +279,14 @@ const MobileLeftSidebar = ({
           })}
         </div>
       </div>
-      <>
+      {/* <>
         {open && (
           <div className="bg-red-700 w-full">
             <h1 className="">Post</h1>
             <h1 className="">Reels</h1>
           </div>
         )}
-      </>
+      </> */}
       <CreatePost open={open} setOpen={setOpen} />
     </div>
   );
