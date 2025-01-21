@@ -166,7 +166,7 @@ const Post = ({ post, isLoading }) => {
                 <Badge variant="secondary">Author</Badge>
               )}
             </h1>
-            <h1 className="text-xs text-gray-400">{`${post.author?.bio.slice(
+            <h1 className="text-xs text-gray-400">{`${post.author?.bio?.slice(
               0,
               35
             )}...`}</h1>
@@ -272,7 +272,15 @@ const Post = ({ post, isLoading }) => {
             </div>
           ))}
           {comment.length > 0 && (
-            <span onClick={() => {dispatch(setSelectedPost(post)); setOpen(true);}} className="font-sans text-gray-800 px-2">Comment by {firstUser?.username} and {comment?.length - 1} others</span>
+            <span
+              onClick={() => {
+                dispatch(setSelectedPost(post));
+                setOpen(true);
+              }}
+              className="font-sans text-gray-800 px-2"
+            >
+              Comment by {firstUser?.username} and {comment?.length - 1} others
+            </span>
           )}
         </div>
         {/* <Avatar>
@@ -292,9 +300,7 @@ const Post = ({ post, isLoading }) => {
         {post?.caption?.length > 30 ? (
           isExpanded ? (
             <>
-              <span className="font-bold mr-1">
-                {post?.author?.username}
-              </span>
+              <span className="font-bold mr-1">{post?.author?.username}</span>
               <span className="text-xs">{post?.caption}</span>
               <span
                 onClick={toggleExpansion}
@@ -305,9 +311,7 @@ const Post = ({ post, isLoading }) => {
             </>
           ) : (
             <>
-              <span className="font-bold mr-1">
-                {post?.author?.username}
-              </span>
+              <span className="font-bold mr-1">{post?.author?.username}</span>
               <span className="text-sm">{post?.caption?.slice(0, 30)}...</span>
               <span
                 onClick={toggleExpansion}

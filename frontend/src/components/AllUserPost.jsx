@@ -162,7 +162,7 @@ const AllUserPost = ({ post, isLoading }) => {
               {post?.author?.username}{' '}
             <Badge variant="secondary">Author</Badge>
             </h1>
-            <h1 className="text-xs text-gray-400">{`${post?.author?.bio.slice(
+            <h1 className="text-xs text-gray-400">{`${post?.author?.bio?.slice(
               0,
               35
             )}...`}</h1>
@@ -276,7 +276,7 @@ const AllUserPost = ({ post, isLoading }) => {
               <span className="font-medium font-extrabold mr-1">
                 {post?.author?.username}
               </span>
-              <span className="text-sm">{post?.caption.slice(0, 30)}...</span>
+              <span className="text-sm">{post?.caption?.slice(0, 30)}...</span>
               <span
                 onClick={toggleExpansion}
                 className="text-gray-600 text-sm cursor-pointer mx-1 cursor-pointer underline"
