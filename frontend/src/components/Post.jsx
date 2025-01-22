@@ -19,6 +19,7 @@ import { toast } from 'sonner';
 import { setPosts, setSelectedPost } from '@/redux/postSlice';
 import { Badge } from './ui/badge';
 import { Skeleton } from './ui/skeleton';
+import FollowButton from './FollowButton';
 
 const Post = ({ post, isLoading }) => {
   const [text, setText] = useState('');
@@ -160,16 +161,17 @@ const Post = ({ post, isLoading }) => {
             <AvatarFallback>CN</AvatarFallback>
           </Avatar>
           <div className="">
-            <h1 className=" flex gap-28 font-bold font-sans text-gray-800">
-              {post.author?.username}{' '}
+            <h1 className=" flex gap-6 font-bold font-sans text-gray-800">
+              {post.author?.username || ''}{' '}
               {user?._id === post.author._id && (
-                <Badge variant="secondary">Author</Badge>
+                <Badge variant={'secondary'} className="text-xs font-thin">Author</Badge>
               )}
+              {/* <PostButton/> */}
             </h1>
             <h1 className="text-xs text-gray-400">{`${post.author?.bio?.slice(
               0,
               35
-            )}...`}</h1>
+            )}...` || ''}</h1>
             {/* <div className="">
               {user?._id === post.author._id && (
                 <Badge variant="secondary">Author</Badge>
@@ -214,31 +216,31 @@ const Post = ({ post, isLoading }) => {
       <div className="flex items-center justify-between my-2 px-2">
         <div className="flex items-center gap-3">
           {liked ? (
-            <>
+            <div className="flex gap-1">
               <ThumbsUp
                 onClick={likeOrDislikeHandler}
-                size={'24'}
-                className="cursor-pointer text-blue-600"
+                size={'28'}
+                className="cursor-pointer bg-blue-500 text-white rounded-full py-1"
               />
-              <span className="font-bold">
+              <h1 className="font-bold">
                 {' '}
                 {postLike > 0 && <>{postLike}</>}
-              </span>
-            </>
+              </h1>
+            </div>
           ) : (
-            <>
+            <div className="flex gap-1">
               <ThumbsUp
                 onClick={likeOrDislikeHandler}
-                size={'22px'}
+                size={'25px'}
                 className="cursor-pointer hover:text-gray-600"
               />
-              <span className="font-bold">
+              <h1 className="font-bold">
                 {' '}
                 {postLike > 0 && <>{postLike}</>}
-              </span>
-            </>
+              </h1>
+            </div>
           )}
-          <>
+          <div className="flex gap-1">
             <MessageSquareText
               onClick={() => {
                 dispatch(setSelectedPost(post));
@@ -246,10 +248,10 @@ const Post = ({ post, isLoading }) => {
               }}
               className="cursor-pointer hover:text-gray-600"
             />{' '}
-            <span className="font-bold">
+            <h1 className="font-bold">
               {comment?.length > 0 && <>{comment?.length}</>}
-            </span>
-          </>
+            </h1>
+          </div>
           <Forward className="cursor-pointer hover:text-gray-600" />
         </div>
         <Bookmark
@@ -340,7 +342,7 @@ const Post = ({ post, isLoading }) => {
           placeholder="Add a comment..."
           value={text}
           onChange={changeEventHandler}
-          className="outline-none text-xs w-full p-1 px-4 rounded-xl border border-gray-200"
+          className="outline-none text-sm w-full py-2 px-4 rounded-xl border border-gray-200"
         />
         {text && (
           <span
@@ -351,6 +353,22 @@ const Post = ({ post, isLoading }) => {
           </span>
         )}
       </div>
+    </div>
+  );
+};
+
+const PostButton = ({ post }) => {
+  const { user } = useSelector((state) => state?.auth); 
+
+  const isOwnPost = post?.author._id === user._id;
+
+  return (
+    <div className="post">
+      <h3>{post?.author.username}</h3>
+      <p>{post?.content}</p>
+      {!isOwnPost && (
+        <FollowButton userId={post?.author._id} isFollowing={post?.author.isFollowing} />
+      )}
     </div>
   );
 };

@@ -24,10 +24,12 @@ export const addNewPost = async (req, res) => {
       'base64'
     )}`;
     const cloudResponse = await cloudinary.uploader.upload(fileUri);
+
     const post = await Post.create({
       caption,
       image: cloudResponse.secure_url,
       author: authorId,
+      createdAtDate: new Date(),
     });
     const user = await User.findById(authorId);
     if (user) {
@@ -46,6 +48,7 @@ export const addNewPost = async (req, res) => {
     console.log(error);
   }
 };
+
 export const getAllPost = async (req, res) => {
   try {
     const posts = await Post.find()

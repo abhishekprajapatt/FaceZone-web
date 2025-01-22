@@ -1,6 +1,8 @@
 import {
+  CircleFadingPlus,
   Drama,
   Frown,
+  Grid3x3,
   Heart,
   Home,
   LogOut,
@@ -9,11 +11,11 @@ import {
   Search,
   TrendingUp,
 } from 'lucide-react';
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
 import { toast } from 'sonner';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { setAuthUser } from '@/redux/authSlice';
 import CreatePost from './CreatePost';
@@ -38,6 +40,7 @@ const LeftSidebar = () => {
   );
   const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
+  const [iconOpen, setIconOpen] = useState(false);
   const logoutHandler = async () => {
     try {
       const res = await axios.get(
@@ -60,7 +63,7 @@ const LeftSidebar = () => {
     if (textType === 'Logout') {
       logoutHandler();
     } else if (textType === 'Create') {
-      setOpen(true);
+      setIconOpen(true);
     } else if (textType === 'CreatePost') {
       navigate('/createpost');
     } else if (textType === 'Profile') {
@@ -93,8 +96,116 @@ const LeftSidebar = () => {
     { icon: <LogOut />, text: 'Logout' },
   ];
 
+
+  // Mobile
+  const MobilesidebarItems = [
+    { icon: <Home />, text: 'Home' },
+    // { icon: <MessageCircle />, text: 'Messages' },
+    {
+      icon: <PlusSquare className="md:block" />,
+      text: 'Create',
+    },
+    { icon: <Drama size={28} />, text: 'network' },
+    { icon: <Frown size={28} />, text: 'Logout' },
+    {
+      icon: (
+        <Avatar className="w-6 h-6">
+          <AvatarImage src={user?.profilePicture} alt="@shadcn" />
+          <AvatarFallback>CN</AvatarFallback>
+        </Avatar>
+      ),
+      text: 'Profile',
+    },
+    { icon: <LogOut />, text: 'Logout' },
+  ];
+
+  
   return (
     <div>
+      {/* Mobile */}
+      <div className="sm:hidden block">
+        <div className="flex">
+          <div className="grid grid-cols-5 shadow-lg shadow-gray-800 px-4 py-1 fixed bottom-0 gap-6 border-b border-gray-300 w-full h-[8%] bg-white">
+            {MobilesidebarItems.map((item, index) => {
+              return (
+                <div
+                  onClick={() => sidebarHandler(item.text)}
+                  key={index}
+                  className="flex flex-row items-center gap- relative hover:bg-gray-100 p-2 cursor-pointer rounded-lg"
+                >
+                  {item.icon}
+                  {item.text === 'Notifications' &&
+                    likeNotification.length > 0 && (
+                      <Popover>
+                        <PopoverTrigger asChild>
+                          <Button
+                            size="icon"
+                            className="rounded-full h-5 w-5 bg-red-600 hover:bg-red-600 absolute bottom-6 left-6"
+                          >
+                            {likeNotification.length}
+                          </Button>
+                        </PopoverTrigger>
+                        <PopoverContent>
+                          <div>
+                            {likeNotification.length === 0 ? (
+                              <p>No new notification</p>
+                            ) : (
+                              likeNotification.map((notification) => {
+                                return (
+                                  <div
+                                    key={notification.userId}
+                                    className="flex items-center gap-2 my-2"
+                                  >
+                                    <Avatar>
+                                      <AvatarImage
+                                        src={
+                                          notification.userDetails
+                                            ?.profilePicture
+                                        }
+                                      />
+                                      <AvatarFallback>CN</AvatarFallback>
+                                    </Avatar>
+                                    <p className="text-sm">
+                                      <span className="font-bold">
+                                        {notification.userDetails?.username}
+                                      </span>{' '}
+                                      liked your post
+                                    </p>
+                                  </div>
+                                );
+                              })
+                            )}
+                          </div>
+                        </PopoverContent>
+                      </Popover>
+                    )}
+                </div>
+              );
+            })}
+          </div>
+        </div>
+        <>
+          {iconOpen && (
+            <div className="bg-white flex flex-col gap-2 w-2/2 fixed bottom-16 ml-16  rounded-xl">
+              <button
+            onClick={() => setOpen(true)}
+                to="create"
+                className="flex gap-3 hover:bg-gray-100 px-3 py-2 rounded-xl"
+              >
+                Post <Grid3x3 />
+              </button>
+              <Link
+                to="/"
+                className="flex gap-2 hover:bg-gray-100 px-3 py-2 rounded-xl"
+              >
+                Story <CircleFadingPlus />
+              </Link>
+            </div>
+          )}
+        </>
+        <CreatePost open={open} setOpen={setOpen} />
+      </div>
+      {/* Desktop */}
       <div className="hidden sm:block fixed top-0 z-10 left-0 px-4 border-r border-gray-300 w-[16%] h-screen">
         <div className="flex flex-col">
           <h1 className="my-8 pl-3 font-bold text-xl text-blue-600 hidden md:block">
@@ -173,13 +284,13 @@ const LeftSidebar = () => {
         </div>
         {/* <CreatePost open={open} setOpen={setOpen} /> */}
       </div>
-      <MobileLeftSidebar
+      {/* <MobileLeftSidebar
         user={user}
         sidebarHandler={sidebarHandler}
         likeNotification={likeNotification}
         setOpen={setOpen}
         open={open}
-      />
+      /> */}
     </div>
   );
 };
@@ -190,18 +301,14 @@ const MobileLeftSidebar = ({
   user,
   sidebarHandler,
   likeNotification,
-  setOpen,
   open,
+  setOpen,
 }) => {
   const sidebarItems = [
     { icon: <Home size={28} />, text: 'Home' },
     {
-      icon: (
-        <>
-          <PlusSquare size={28} className="md:hidden" />
-        </>
-      ),
-      text: 'Create',
+      icon: <PlusSquare size={28} className="md:hidden" />,
+      text: 'Creat',
     },
     { icon: <Drama size={28} />, text: 'network' },
     { icon: <Frown size={28} />, text: 'Logout' },
@@ -217,6 +324,11 @@ const MobileLeftSidebar = ({
     // { icon: <Heart />, text: 'Notifications' },
     // { icon: <MessageCircle />, text: 'Messages' },
   ];
+
+  const [isopen, issetOpen] = useState(false);
+
+  const toggleOpen = () => issetOpen((prevState) => !prevState);
+
   return (
     <div className="sm:hidden block">
       <div className="flex">
@@ -279,15 +391,25 @@ const MobileLeftSidebar = ({
           })}
         </div>
       </div>
-      {/* <>
-        {open && (
-          <div className="bg-red-700 w-full">
-            <h1 className="">Post</h1>
-            <h1 className="">Reels</h1>
+      <>
+        {isopen && (
+          <div className="bg-white flex flex-col gap-2 w-2/2 fixed bottom-16 ml-16  rounded-xl">
+            <Link
+              to="create"
+              className="flex gap-2 hover:bg-gray-100 px-3 py-2 rounded-xl"
+            >
+              Post <Grid3x3 />
+            </Link>
+            <Link
+              to="/"
+              className="flex gap-2 hover:bg-gray-100 px-3 py-2 rounded-xl"
+            >
+              Story <CircleFadingPlus />
+            </Link>
           </div>
         )}
-      </> */}
-      <CreatePost open={open} setOpen={setOpen} />
+      </>
+      {/* <CreatePost open={open} setOpen={setOpen} /> */}
     </div>
   );
 };

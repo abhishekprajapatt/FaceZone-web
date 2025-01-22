@@ -126,7 +126,7 @@ export const getProfile = async (req, res) => {
   }
 };
 
-
+// fake default for use test 
 export const editProfile = async (req, res) => {
   try {
     const userId = req.id; // User ID from the request (assume it's set in middleware)
@@ -242,6 +242,7 @@ export const getSuggestedUsers = async (req, res) => {
     console.log(error);
   }
 };
+
 export const followOrUnfollow = async (req, res) => {
   try {
     const followKrneWala = req.id; 
