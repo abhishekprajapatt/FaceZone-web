@@ -347,7 +347,7 @@ const Post = ({ post, isLoading }) => {
         {text && (
           <span
             onClick={commentHandler}
-            className="bg-blue-700 font-mono text-white cursor-pointer rounded-full px-2 mx-1"
+            className="bg-blue-700 font-mono text-white cursor-pointer rounded-full p-2 mx-1"
           >
             Comment
           </span>
