@@ -38,5 +38,5 @@ app.get('*', (_, res) => {
 
 server.listen(PORT, () => {
   connectDB();
-  console.log(`Server listen at port ${PORT}`);
+  console.log(`Backend Server Running on : ${PORT}`);
 });
