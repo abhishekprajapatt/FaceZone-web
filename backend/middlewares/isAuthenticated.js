@@ -19,6 +19,10 @@ const isAuthenticated = async (req, res, next) => {
     next();
   } catch (error) {
     console.log(error);
+    return res.status(500).json({
+      message: 'Internal server error',
+      success: false,
+    });
   }
 };
 export default isAuthenticated;

@@ -25,7 +25,7 @@ export const register = async (req, res) => {
       username,
       email,
       password: hashedPassword,
-      birthday
+      birthday,
     });
     return res.status(201).json({
       message: 'Account created successfully.',
@@ -78,7 +78,7 @@ export const login = async (req, res) => {
       username: user.username,
       name: user.name,
       email: user.email,
-      birthday:user.birthday,
+      birthday: user.birthday,
       profilePicture: user.profilePicture,
       bannerPicture: user.bannerPicture,
       bio: user.bio,
@@ -126,91 +126,40 @@ export const getProfile = async (req, res) => {
   }
 };
 
-// fake default for use test 
+// original 
 export const editProfile = async (req, res) => {
   try {
-    const userId = req.id; // User ID from the request (assume it's set in middleware)
-    const { name, bio, gender } = req.body; // Destructure the body fields
-    const profilePicture = req.files?.profilePicture?.[0]; // Access `profilePicture` file
-    const bannerPicture = req.files?.bannerPicture?.[0]; // Access `bannerPicture` file
-    let profilePictureResponse, bannerPictureResponse;
-
-    // Handle `profilePicture` upload
-    if (profilePicture) {
-      const fileUri = getDataUri(profilePicture);
-      profilePictureResponse = await cloudinary.uploader.upload(fileUri);
-    }
-
-    // Handle `bannerPicture` upload
-    if (bannerPicture) {
-      const fileUri = getDataUri(bannerPicture);
-      bannerPictureResponse = await cloudinary.uploader.upload(fileUri);
-    }
-
-    // Find the user in the database
-    const user = await User.findById(userId).select('-password');
-    if (!user) {
-      return res.status(404).json({
-        message: 'User not found.',
-        success: false,
-      });
-    }
-
-    // Update user fields
-    if (name) user.name = name;
-    if (bio) user.bio = bio;
-    if (gender) user.gender = gender;
-    if (profilePictureResponse) user.profilePicture = profilePictureResponse.secure_url;
-    if (bannerPictureResponse) user.bannerPicture = bannerPictureResponse.secure_url;
-
-    // Save the updated user
-    await user.save();
-
-    return res.status(200).json({
-      message: 'Profile updated successfully.',
-      success: true,
-      user,
-    });
-  } catch (error) {
-    console.error('Error updating profile:', error);
-    return res.status(500).json({
-      message: 'An error occurred while updating the profile.',
-      success: false,
-    });
-  }
-};
-
-
-
-export const ditProfile = async (req, res) => {
-  try {
     const userId = req.id;
-    const {name, bio, gender,} = req.body;
-    const profilePicture = req.file;
-    const  bannerPicture = req.file;
+    const { name, bio, gender } = req.body;
+    const profilePicture = req.files.profilePhoto ? req.files.profilePhoto[0] : null; // Use req.files for multiple files
+    const bannerPicture = req.files.bannerPhoto ? req.files.bannerPhoto[0] : null; // Use req.files for multiple files
     let cloudResponse;
 
-    if (profilePicture) {
-      const fileUri = getDataUri(profilePicture);
-      cloudResponse = await cloudinary.uploader.upload(fileUri);
-    }
-    if (bannerPicture) {
-      const fileUri = getDataUri(bannerPicture);
-      cloudResponse = await cloudinary.uploader.upload(fileUri);
-    }
-
     const user = await User.findById(userId).select('-password');
     if (!user) {
       return res.status(404).json({
-        message: 'User not found.',
+        message: 'User  not found.',
         success: false,
       });
     }
+
     if (name) user.name = name;
     if (bio) user.bio = bio;
     if (gender) user.gender = gender;
-    if (profilePicture) user.profilePicture = cloudResponse.secure_url;
-    if (bannerPicture) user.bannerPicture = cloudResponse.secure_url;
+
+    // Handle profile picture upload
+    if (profilePicture) {
+      const fileUri = getDataUri(profilePicture);
+      cloudResponse = await cloudinary.uploader.upload(fileUri);
+      user.profilePicture = cloudResponse.secure_url; // Save the URL to the user object
+    }
+
+    // Handle banner picture upload
+    if (bannerPicture) {
+      const fileUri = getDataUri(bannerPicture);
+      cloudResponse = await cloudinary.uploader.upload(fileUri);
+      user.bannerPicture = cloudResponse.secure_url; // Save the URL to the user object
+    }
 
     await user.save();
 
@@ -220,16 +169,249 @@ export const ditProfile = async (req, res) => {
       user,
     });
   } catch (error) {
-    console.log(error);
+    console.error(error);
+    return res.status(500).json({
+      message: 'An error occurred while updating the profile.',
+      success: false,
+    });
+  }
+};
+
+// export const ditProfile = async (req, res) => {
+//   try {
+//     const userId = req.id;
+//     const { name, bio, gender } = req.body;
+//     const profilePicture = req.file;
+//     const bannerPicture = req.file;
+//     let cloudResponse;
+
+//     if (profilePicture) {
+//       const fileUri = getDataUri(profilePicture);
+//       cloudResponse = await cloudinary.uploader.upload(fileUri);
+//     }
+//     if (bannerPicture) {
+//       const fileUri = getDataUri(bannerPicture);
+//       cloudResponse = await cloudinary.uploader.upload(fileUri);
+//     }
+
+//     const user = await User.findById(userId).select('-password');
+//     if (!user) {
+//       return res.status(404).json({
+//         message: 'User not found.',
+//         success: false,
+//       });
+//     }
+//     if (name) user.name = name;
+//     if (bio) user.bio = bio;
+//     if (gender) user.gender = gender;
+//     if (profilePicture) user.profilePicture = cloudResponse.secure_url;
+//     if (bannerPicture) user.bannerPicture = cloudResponse.secure_url;
+
+//     await user.save();
+
+//     return res.status(200).json({
+//       message: 'Profile updated.',
+//       success: true,
+//       user,
+//     });
+//   } catch (error) {
+//     console.log(error);
+//   }
+// };
+
+// export const getSuggestedUsers = async (req, res) => {
+//   try {
+//     const suggestedUsers = await User.find({ _id: { $ne: req.id } }).select(
+//       '-password'
+//     );
+//     if (!suggestedUsers) {
+//       return res.status(400).json({
+//         message: 'Currently do not have any users',
+//       });
+//     }
+//     return res.status(200).json({
+//       success: true,
+//       users: suggestedUsers,
+//     });
+//   } catch (error) {
+//     console.log(error);
+//   }
+// };
+
+// export const followOrUnfollow = async (req, res) => {
+//   try {
+//     const followKrneWala = req.id;
+//     const jiskoFollowKrunga = req.params.id;
+//     if (followKrneWala === jiskoFollowKrunga) {
+//       return res.status(400).json({
+//         message: 'You cannot follow/unfollow yourself',
+//         success: false,
+//       });
+//     }
+
+//     const user = await User.findById(followKrneWala);
+//     const targetUser = await User.findById(jiskoFollowKrunga);
+
+//     if (!user || !targetUser) {
+//       return res.status(400).json({
+//         message: 'User not found',
+//         success: false,
+//       });
+//     }
+
+//     const isFollowing = user.following.includes(jiskoFollowKrunga);
+//     if (isFollowing) {
+//       // unfollow logic
+//       await Promise.all([
+//         User.updateOne(
+//           { _id: followKrneWala },
+//           { $pull: { following: jiskoFollowKrunga } }
+//         ),
+//         User.updateOne(
+//           { _id: jiskoFollowKrunga },
+//           { $pull: { followers: followKrneWala } }
+//         ),
+//       ]);
+//       return res
+//         .status(200)
+//         .json({ message: 'Unfollowed successfully', success: true });
+//     } else {
+//       // follow logic
+//       await Promise.all([
+//         User.updateOne(
+//           { _id: followKrneWala },
+//           { $push: { following: jiskoFollowKrunga } }
+//         ),
+//         User.updateOne(
+//           { _id: jiskoFollowKrunga },
+//           { $push: { followers: followKrneWala } }
+//         ),
+//       ]);
+//       return res
+//         .status(200)
+//         .json({ message: 'followed successfully', success: true });
+//     }
+//   } catch (error) {
+//     console.log(error);
+//   }
+// };
+
+// default
+
+// Follow a user
+export const followUser  = async (req, res) => {
+  try {
+    const followerId = req.id;
+    const targetUserId = req.params.id;
+
+    if (followerId === targetUserId) {
+      return res.status(400).json({
+        message: 'You cannot follow yourself',
+        success: false,
+      });
+    }
+
+    const user = await User.findById(followerId);
+    const targetUser  = await User.findById(targetUserId);
+
+    if (!user || !targetUser ) {
+      return res.status(404).json({
+        message: 'User  not found',
+        success: false,
+      });
+    }
+
+    if (user.following.includes(targetUserId)) {
+      return res.status(400).json({
+        message: 'You are already following this user',
+        success: false,
+      });
+    }
+
+    // Follow logic
+    await Promise.all([
+      User.updateOne(
+        { _id: followerId },
+        { $push: { following: { id: targetUserId, username: targetUser .username, name: targetUser .name, profilePicture: targetUser .profilePicture } } }
+      ),
+      User.updateOne(
+        { _id: targetUserId },
+        { $push: { followers: { id: followerId, username: user.username, name: user.name, profilePicture: user.profilePicture } } }
+      ),
+    ]);
+
+    return res.status(200).json({
+      message: 'Followed successfully',
+      success: true,
+    });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({
+      message: 'An error occurred while following the user',
+      success: false,
+    });
+  }
+};
+
+// Unfollow a user
+export const unfollowUser  = async (req, res) => {
+  try {
+    const followerId = req.id;
+    const targetUserId = req.params.id;
+
+    if (followerId === targetUserId) {
+      return res.status(400).json({
+        message: 'You cannot unfollow yourself',
+        success: false,
+      });
+    }
+
+    const user = await User.findById(followerId);
+    const targetUser  = await User.findById(targetUserId);
+
+    if (!user || !targetUser ) {
+      return res.status(404).json({
+        message: 'User  not found',
+        success: false,
+      });
+    }
+
+    if (!user.following.includes(targetUserId)) {
+      return res.status(400).json({
+        message: 'You are not following this user',
+        success: false,
+      });
+    }
+
+    // Unfollow logic
+    await Promise.all([
+      User.updateOne(
+        { _id: followerId },
+        { $pull: { following: { id: targetUserId } } }
+      ),
+      User.updateOne(
+        { _id: targetUserId },
+        { $pull: { followers: { id: followerId } } }
+      ),
+    ]);
+
+    return res.status(200).json({
+      message: 'Unfollowed successfully',
+      success: true,
+    });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({
+      message: 'An error occurred while unfollowing the user',
+      success: false,
+    });
   }
 };
 
 export const getSuggestedUsers = async (req, res) => {
   try {
-    const suggestedUsers = await User.find({ _id: { $ne: req.id } }).select(
-      '-password'
-    );
-    if (!suggestedUsers) {
+    const suggestedUsers = await User.find({ _id: { $ne: req.id, $nin: req?.user?.following } }).select('-password');
+    if (!suggestedUsers.length) {
       return res.status(400).json({
         message: 'Currently do not have any users',
       });
@@ -240,63 +422,9 @@ export const getSuggestedUsers = async (req, res) => {
     });
   } catch (error) {
     console.log(error);
-  }
-};
-
-export const followOrUnfollow = async (req, res) => {
-  try {
-    const followKrneWala = req.id; 
-    const jiskoFollowKrunga = req.params.id; 
-    if (followKrneWala === jiskoFollowKrunga) {
-      return res.status(400).json({
-        message: 'You cannot follow/unfollow yourself',
-        success: false,
-      });
-    }
-
-    const user = await User.findById(followKrneWala);
-    const targetUser = await User.findById(jiskoFollowKrunga);
-
-    if (!user || !targetUser) {
-      return res.status(400).json({
-        message: 'User not found',
-        success: false,
-      });
-    }
-    
-    const isFollowing = user.following.includes(jiskoFollowKrunga);
-    if (isFollowing) {
-      // unfollow logic 
-      await Promise.all([
-        User.updateOne(
-          { _id: followKrneWala },
-          { $pull: { following: jiskoFollowKrunga } }
-        ),
-        User.updateOne(
-          { _id: jiskoFollowKrunga },
-          { $pull: { followers: followKrneWala } }
-        ),
-      ]);
-      return res
-        .status(200)
-        .json({ message: 'Unfollowed successfully', success: true });
-    } else {
-      // follow logic 
-      await Promise.all([
-        User.updateOne(
-          { _id: followKrneWala },
-          { $push: { following: jiskoFollowKrunga } }
-        ),
-        User.updateOne(
-          { _id: jiskoFollowKrunga },
-          { $push: { followers: followKrneWala } }
-        ),
-      ]);
-      return res
-        .status(200)
-        .json({ message: 'followed successfully', success: true });
-    }
-  } catch (error) {
-    console.log(error);
+    return res.status(500).json({
+      message: 'An error occurred while fetching suggested users',
+      success: false,
+    });
   }
 };
