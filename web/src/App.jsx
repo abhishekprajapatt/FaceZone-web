@@ -5,7 +5,6 @@ import Home from './components/Home';
 import Login from './components/Login';
 import MainLayout from './components/LayOut/MainLayOut';
 import Profile from './components/Profile/UserProfile';
-import Signup from './components/Signup';
 import Signup from './components/Signup'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { io } from 'socket.io-client';

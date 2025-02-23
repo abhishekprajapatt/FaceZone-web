@@ -26,7 +26,7 @@ export function HelloWave() {
 
   return (
     <Animated.View style={animatedStyle}>
-      <ThemedText style={styles.text}>👋</ThemedText>
+      <ThemedText className="bg-red-500" style={styles.text}>👋</ThemedText>
     </Animated.View>
   );
 }
